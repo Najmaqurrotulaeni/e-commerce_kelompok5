@@ -10,24 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
 }
 
 if (!isset($input['id'])) {
-    echo json_encode(['status' => 'error', 'message' => 'Product ID is required']);
+    echo json_encode(['status' => 'error', 'message' => 'Category ID is required']);
     exit;
 }
 
 $id = $input['id'];
 
 try {
-    $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
+    $stmt = $conn->prepare("DELETE FROM categories WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        echo json_encode(['status' => 'success', 'message' => 'Product deleted successfully']);
+        echo json_encode(['status' => 'success', 'message' => 'Category deleted successfully']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Product not found']);
+        echo json_encode(['status' => 'error', 'message' => 'Category not found']);
     }
 } catch(mysqli_sql_exception $e) {
-    echo json_encode(['status' => 'error', 'message' => 'Failed to delete product: ' . $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'message' => 'Failed to delete category: ' . $e->getMessage()]);
 }
 ?>
-
